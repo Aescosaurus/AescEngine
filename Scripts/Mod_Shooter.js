@@ -6,7 +6,7 @@ class ShooterMod extends Module
 		
 		this.shootKey = new InputStr( 'Q',1 )
 		
-		this.shootDir = new Vector( 0,0,0,100 )
+		this.shootDir = new Vector( 0,0,0,-100 )
 		
 		this.bulletSpr = new SpritePicker()
 		this.bulletScale = new Vector( 0,0,30,30 )
@@ -35,7 +35,7 @@ class ShooterMod extends Module
 			this.bulletSpr.height = this.bulletScale.Diff().y
 			
 			this.shotCooldown.Update( mouse,kbd )
-			this.shotCooldown.MoveTo( info.pos.x - 90,info.pos.y )
+			this.shotCooldown.MoveTo( info.pos.x,info.pos.y )
 		}
 	}
 	
@@ -52,45 +52,51 @@ class ShooterMod extends Module
 		this.shotCooldown.Draw( gfx )
 	}
 	
-	Decorate( obj )
+	Decorate( obj,info )
 	{
-		if( this.bulletSpr.spr )
+		if( !this.bulletSpr.spr )
 		{
-			obj.start += "this.sBulletSpr = new Sprite( '" + this.bulletSpr.spr.path + "' )\n"
-			obj.start += "this.sBulletWidth = " + this.bulletScale.Diff().x + '\n'
-			obj.start += "this.sBulletHeight = " + this.bulletScale.Diff().y + '\n'
-			obj.start += "this.sBulletList = []\n"
-			obj.start += "this.sBulletSpeed = " + ( this.shootDir.Diff().GetLen() * ShooterMod.speedScale ) + '\n'
-			obj.start += "this.sShotCooldown = " + ( this.shotCooldown.CalcVal() * 60 ) + '\n'
-			obj.start += "this.sShotTimer = 0\n"
-			
-			obj.update += "if( ++this.sShotTimer > this.sShotCooldown && kbd.KeyDown( '" + this.shootKey.str + "' ) ){\n"
-			obj.update += "this.sShotTimer = 0.0\n"
-			obj.update += "this.sBulletList.push( { x: this.x - this.sBulletWidth / 2,y: this.y - this.sBulletHeight / 2,xVel: Math.cos( this.rot ),yVel: Math.sin( this.rot ) } )\n"
-			obj.update += "}\n"
-			obj.update += "for( let bi in this.sBulletList ){\n"
-			obj.update += "const b = this.sBulletList[bi]\n"
-			obj.update += "b.x += b.xVel * this.sBulletSpeed\n"
-			obj.update += "b.y += b.yVel * this.sBulletSpeed\n"
-			obj.update += "for( let oi in objs ) {\n"
-			obj.update += "const obj = objs[oi]\n"
-			obj.update += "if( obj.hHitbox ){\n"
-			obj.update += "const objRight = obj.x + obj.hHitbox.width\n"
-			obj.update += "const objBot = obj.y + obj.hHitbox.height\n"
-			obj.update += "const bRight = b.x + this.sBulletWidth\n"
-			obj.update += "const bBot = b.y + this.sBulletHeight\n"
-			obj.update += "if( objRight > b.x && obj.x < bRight && objBot > b.y && obj.y < bBot ) {\n"
-			obj.update += "if( objs[oi].sDestroyFunc ) objs[oi].sDestroyFunc()\n"
-			obj.update += "objs.splice( oi,1 )\n"
-			obj.update += "this.sBulletList.splice( bi,1 )\n"
-			obj.update += "break\n"
-			obj.update += "}\n"
-			obj.update += "}\n"
-			obj.update += "}\n"
-			obj.update += "}\n"
-			
-			obj.draw += "for( let b of this.sBulletList ) gfx.DrawSpriteScale( b.x,b.y,this.sBulletSpr,this.sBulletWidth,this.sBulletHeight )\n"
+			ErrorHandler.Throw( "Obj '" + info.name + "': Shooter Mod has no bullet sprite." )
+			return
 		}
+		
+		obj.start += "this.sBulletSpr = new Sprite( '" + this.bulletSpr.spr.path + "' )\n"
+		obj.start += "this.sBulletWidth = " + this.bulletScale.Diff().x + '\n'
+		obj.start += "this.sBulletHeight = " + this.bulletScale.Diff().y + '\n'
+		obj.start += "this.sBulletList = []\n"
+		obj.start += "this.sBulletSpeed = " + ( this.shootDir.Diff().GetLen() * ShooterMod.speedScale ) + '\n'
+		obj.start += "this.sShotCooldown = " + ( this.shotCooldown.CalcVal() * 60 ) + '\n'
+		obj.start += "this.sShotTimer = 0\n"
+		obj.start += "this.sBulletRotOffset = " + Math.atan2( this.shootDir.Diff().y,this.shootDir.Diff().x ) + " + Math.PI / 2\n"
+		
+		obj.update += "if( ++this.sShotTimer > this.sShotCooldown && ( kbd.KeyDown( '" + this.shootKey.str + "' ) || '" + this.shootKey.str + "'.length < 1 ) ){\n"
+		obj.update += "this.sShotTimer = 0.0\n"
+		obj.update += "this.sBulletList.push( { x: this.x - this.sBulletWidth / 2,y: this.y - this.sBulletHeight / 2,xVel: Math.cos( this.rot + this.sBulletRotOffset ),yVel: Math.sin( this.rot + this.sBulletRotOffset ) } )\n"
+		obj.update += "}\n"
+		obj.update += "for( let bi in this.sBulletList ){\n"
+		obj.update += "const b = this.sBulletList[bi]\n"
+		obj.update += "b.x += b.xVel * this.sBulletSpeed\n"
+		obj.update += "b.y += b.yVel * this.sBulletSpeed\n"
+		obj.update += "for( let oi in objs ) {\n"
+		obj.update += "const obj = objs[oi]\n"
+		obj.update += "if( obj.hHitbox && obj.objName != this.objName ){\n"
+		obj.update += "const objLeft = obj.x - obj.hHitbox.width / 2\n"
+		obj.update += "const objTop = obj.y - obj.hHitbox.height / 2\n"
+		obj.update += "const objRight = obj.x + obj.hHitbox.width / 2\n"
+		obj.update += "const objBot = obj.y + obj.hHitbox.height / 2\n"
+		obj.update += "const bRight = b.x + this.sBulletWidth\n"
+		obj.update += "const bBot = b.y + this.sBulletHeight\n"
+		obj.update += "if( objRight > b.x && objLeft < bRight && objBot > b.y && objTop < bBot ) {\n"
+		obj.update += "if( objs[oi].sDestroyFunc ) objs[oi].sDestroyFunc()\n"
+		obj.update += "objs.splice( oi,1 )\n"
+		obj.update += "this.sBulletList.splice( bi,1 )\n"
+		obj.update += "break\n"
+		obj.update += "}\n"
+		obj.update += "}\n"
+		obj.update += "}\n"
+		obj.update += "}\n"
+		
+		obj.draw += "for( let b of this.sBulletList ) gfx.DrawSpriteScale( b.x,b.y,this.sBulletSpr,this.sBulletWidth,this.sBulletHeight )\n"
 		
 		obj.Newline()
 		

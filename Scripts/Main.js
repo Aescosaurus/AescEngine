@@ -11,6 +11,10 @@ class Main
 		this.objMenu = new ObjectMenu( this.gfx,this.textIn )
 		
 		this.game = new GameBuild()
+		
+		this.playButton = new PlayButton( this.gfx )
+		
+		this.errorHandler = new ErrorHandler( this.gfx )
 	}
 	
 	Update()
@@ -18,21 +22,40 @@ class Main
 		if( this.running )
 		{
 			this.game.Update()
-			if( this.kbd.KeyDown( 'B' ) && this.kbd.KeyDown( 'U' ) )
+			// if( this.kbd.KeyDown( 'B' ) && this.kbd.KeyDown( 'U' ) )
+			if( !this.playButton.Playing() )
 			{
-				this.running = false;
-				this.game.Reset()
+				this.StopRunning()
 			}
-			return
 		}
-		else if( this.kbd.KeyDown( 'B' ) && this.kbd.KeyDown( 'I' ) )
+		// else if( this.kbd.KeyDown( 'B' ) && this.kbd.KeyDown( 'I' ) )
+		else if( this.playButton.Playing() )
 		{
 			this.running = true
+			
+			ErrorHandler.msgs.length = 0
+			
+			cam.MoveTo( -this.objMenu.cam.pos.x,-this.objMenu.cam.pos.y )
+			for( let obj of this.objMenu.objs ) obj.UpdateCam( cam )
+			
 			this.game.CreateBuild( this.objMenu.objs )
+			
+			cam.MoveTo( this.objMenu.cam.pos.x,this.objMenu.cam.pos.y )
+			for( let obj of this.objMenu.objs ) obj.UpdateCam( cam )
+			
+			if( ErrorHandler.msgs.length != 0 )
+			{
+				this.StopRunning()
+			}
+		}
+		else
+		{
+			this.objMenu.Update( this.mouse,this.kbd )
+			this.textIn.Update( this.mouse,this.kbd )
 		}
 		
-		this.objMenu.Update( this.mouse,this.kbd )
-		this.textIn.Update( this.mouse,this.kbd )
+		this.playButton.Update( this.mouse,this.kbd )
+		this.errorHandler.Update( this.mouse,this.kbd )
 		
 		this.mouse.Update()
 		this.kbd.lastKey = ""
@@ -43,11 +66,22 @@ class Main
 		if( this.running )
 		{
 			this.game.Draw()
-			return
+		}
+		else
+		{
+			this.objMenu.Draw( this.gfx )
+			this.textIn.Draw( this.gfx )
 		}
 		
-		this.objMenu.Draw( this.gfx )
-		this.textIn.Draw( this.gfx )
+		this.errorHandler.Draw( this.gfx )
+		this.playButton.Draw( this.gfx )
+	}
+	
+	StopRunning()
+	{
+		this.running = false
+		this.game.Reset()
+		this.playButton.playing = false
 	}
 }
 
@@ -58,6 +92,7 @@ const gfx = main.gfx
 const mouse = main.mouse
 const kbd = main.kbd
 const objs = main.game.objs
+const cam = new Camera()
 
 setInterval( function()
 {

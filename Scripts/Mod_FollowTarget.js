@@ -36,8 +36,14 @@ class FollowTargetMod extends Module
 		this.speed.Draw( gfx,"red" )
 	}
 	
-	Decorate( obj )
+	Decorate( obj,info )
 	{
+		if( !this.target.valid )
+		{
+			ErrorHandler.Throw( "Object '" + info.name + "': Follow Target Mod has invalid target." )
+			return
+		}
+		
 		obj.start += "this.ftName = \"" + this.target.str + "\"\n"
 		obj.start += "this.ftSpeed = " + this.speed.Diff().Multiply( FollowTargetMod.speedScale ).GetLen() + '\n'
 		obj.start += "this.ftTarget = null\n"

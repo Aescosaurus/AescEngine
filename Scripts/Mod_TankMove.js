@@ -35,7 +35,7 @@ class TankMoveMod extends Module
 		this.d.SetPos( drawX + this.wasdPadding,drawY - this.wasdPadding )
 		
 		this.friction.Update( mouse,kbd )
-		this.friction.MoveTo( info.pos.x - 80,info.pos.y )
+		this.friction.MoveTo( info.pos.x,info.pos.y )
 		
 		this.rotSpeed.Update( mouse,kbd )
 		this.rotSpeed.MoveTo( info.pos.x,info.pos.y )

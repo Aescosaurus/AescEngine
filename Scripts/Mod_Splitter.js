@@ -42,46 +42,49 @@ class SplitterMod extends Module
 		this.spawnTarget.Draw( gfx )
 	}
 	
-	Decorate( obj )
+	Decorate( obj,info )
 	{
-		if( this.spawnTarget.valid )
+		if( !this.spawnTarget.valid )
 		{
-			obj.start += "if( !this.hHitbox ) this.hHitbox = { width: " + this.size.Diff().x + ",height: " + this.size.Diff().y + " }\n"
-			obj.start += "this.sSpawnTarget = null\n"
-			obj.start += "this.sDestroyFunc = function() { \n"
-			obj.start += "if( this.sSpawnTarget ) { \n"
-			
-			// todo variable spawn count
-			obj.start += "for( let i = 0; i < " + 2 + "; ++i ) {\n"
-			// obj.start += "let temp = Object.assign( {},this.sSpawnTarget )\n"
-			obj.start += "let temp = { startFunc: this.sSpawnTarget.startFunc,updateFunc: this.sSpawnTarget.updateFunc,drawFunc: this.sSpawnTarget.drawFunc,Start: function() { this.startFunc() },Update: function() { this.updateFunc() },Draw: function() { this.drawFunc() } }\n"
-			obj.start += "temp.startFunc()\n"
-			obj.start += "temp.active = true\n"
-			obj.start += "temp.x = this.x\n"
-			obj.start += "temp.y = this.y\n"
-			obj.start += "temp.Update = this.sSpawnTarget.Update\n"
-			obj.start += "temp.Draw = this.sSpawnTarget.Draw\n"
-			// obj.start += "let temp = { startFunc: this.sSpawnTarget.startFunc,updateFunc: this.sSpawnTarget.updateFunc,drawFunc: this.sSpawnTarget.drawFunc,Start: this.sSpawnTarget.Start,Update: this.sSpawnTarget.Update,Draw: this.sSpawnTarget.Draw }\n"
-			// obj.start += "temp.Start()\n"
-			// obj.start += "temp.active = true\n"
-			// obj.start += "temp.x = this.x\n"
-			// obj.start += "temp.y = this.y\n"
-			obj.start += "objs.push( temp )\n"
-			obj.start += "}\n"
-			obj.start += "}\n"
-			
-			obj.start += "}\n"
-			
-			obj.update += "if( !this.sSpawnTarget ){\n"
-			obj.update += "for( let obj of objs ) { if( obj.objName == '" + this.spawnTarget.str + "' ) {\n"
-			obj.update += "this.sSpawnTarget = obj\n"
-			obj.update += "obj.active = false\n"
-			obj.update += "obj.hHitbox = null\n"
-			obj.update += "break\n"
-			obj.update += "}\n"
-			obj.update += "}\n"
-			obj.update += "}\n"
+			ErrorHandler.Throw( "Object '" + info.name + "': Splitter Mod has invalid spawn target." )
+			return
 		}
+		
+		obj.start += "if( !this.hHitbox ) this.hHitbox = { width: " + this.size.Diff().x + ",height: " + this.size.Diff().y + " }\n"
+		obj.start += "this.sSpawnTarget = null\n"
+		obj.start += "this.sDestroyFunc = function() { \n"
+		obj.start += "if( this.sSpawnTarget ) { \n"
+		
+		// todo variable spawn count
+		obj.start += "for( let i = 0; i < " + 2 + "; ++i ) {\n"
+		// obj.start += "let temp = Object.assign( {},this.sSpawnTarget )\n"
+		obj.start += "let temp = { startFunc: this.sSpawnTarget.startFunc,updateFunc: this.sSpawnTarget.updateFunc,drawFunc: this.sSpawnTarget.drawFunc,Start: function() { this.startFunc() },Update: function() { this.updateFunc() },Draw: function() { this.drawFunc() } }\n"
+		obj.start += "temp.startFunc()\n"
+		obj.start += "temp.active = true\n"
+		obj.start += "temp.x = this.x\n"
+		obj.start += "temp.y = this.y\n"
+		obj.start += "temp.Update = this.sSpawnTarget.Update\n"
+		obj.start += "temp.Draw = this.sSpawnTarget.Draw\n"
+		// obj.start += "let temp = { startFunc: this.sSpawnTarget.startFunc,updateFunc: this.sSpawnTarget.updateFunc,drawFunc: this.sSpawnTarget.drawFunc,Start: this.sSpawnTarget.Start,Update: this.sSpawnTarget.Update,Draw: this.sSpawnTarget.Draw }\n"
+		// obj.start += "temp.Start()\n"
+		// obj.start += "temp.active = true\n"
+		// obj.start += "temp.x = this.x\n"
+		// obj.start += "temp.y = this.y\n"
+		obj.start += "objs.push( temp )\n"
+		obj.start += "}\n"
+		obj.start += "}\n"
+		
+		obj.start += "}\n"
+		
+		obj.update += "if( !this.sSpawnTarget ){\n"
+		obj.update += "for( let obj of objs ) { if( obj.objName == '" + this.spawnTarget.str + "' ) {\n"
+		obj.update += "this.sSpawnTarget = obj\n"
+		obj.update += "obj.active = false\n"
+		obj.update += "obj.hHitbox = null\n"
+		obj.update += "break\n"
+		obj.update += "}\n"
+		obj.update += "}\n"
+		obj.update += "}\n"
 		
 		obj.Newline()
 		

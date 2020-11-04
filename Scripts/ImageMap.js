@@ -19,6 +19,7 @@ class ImageMap
 		this.AddImage( new Sprite( "Images/Cactus" ) )
 		this.AddImage( new Sprite( "Images/Triangle" ) )
 		this.AddImage( new Sprite( "Images/Circle" ) )
+		this.AddImage( new Sprite( "Images/Alien" ) )
 	}
 	
 	Update( mouse,kbd )

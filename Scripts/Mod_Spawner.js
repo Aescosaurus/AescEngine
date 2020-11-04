@@ -35,36 +35,39 @@ class SpawnerMod extends Module
 		this.spawnObj.Draw( gfx )
 	}
 	
-	Decorate( obj )
+	Decorate( obj,info )
 	{
-		if( this.spawnObj.valid )
+		if( !this.spawnObj.valid )
 		{
-			obj.start += "this.sSpawnDuration = " + ( this.timer.Diff().GetLen() * SpawnerMod.timerDiv ) + '\n'
-			obj.start += "this.sSpawnTimer = this.sSpawnDuration + 1\n"
-			obj.start += "this.sSpawnTarget = null\n"
-			
-			obj.update += "if( ++this.sSpawnTimer > this.sSpawnDuration ) {\n"
-			obj.update += "this.sSpawnTimer = 0\n"
-			obj.update += "if( !this.sSpawnTarget ){\n"
-			obj.update += "for( let obj of objs ) { if( obj.objName == '" + this.spawnObj.str + "' ) {\n"
-			obj.update += "this.sSpawnTarget = obj\n"
-			obj.update += "obj.active = false\n"
-			obj.update += "obj.hHitbox = null\n"
-			obj.update += "break\n"
-			obj.update += "}\n"
-			obj.update += "}\n"
-			obj.update += "}\n"
-			// obj.update += "let temp = Object.assign( {},this.sSpawnTarget )\n"
-			obj.update += "let temp = { startFunc: this.sSpawnTarget.startFunc,updateFunc: this.sSpawnTarget.updateFunc,drawFunc: this.sSpawnTarget.drawFunc,Start: function() { this.startFunc() },Update: function() { this.updateFunc() },Draw: function() { this.drawFunc() } }\n"
-			obj.update += "temp.startFunc()\n"
-			obj.update += "temp.active = true\n"
-			obj.update += "temp.x = this.x\n"
-			obj.update += "temp.y = this.y\n"
-			obj.update += "temp.Update = this.sSpawnTarget.Update\n"
-			obj.update += "temp.Draw = this.sSpawnTarget.Draw\n"
-			obj.update += "objs.push( temp )\n"
-			obj.update += "}\n"
+			ErrorHandler.Throw( "Object '" + info.name + "': Spawner Mod has invalid spawn object." )
+			return
 		}
+		
+		obj.start += "this.sSpawnDuration = " + ( this.timer.Diff().GetLen() * SpawnerMod.timerDiv ) + '\n'
+		obj.start += "this.sSpawnTimer = this.sSpawnDuration + 1\n"
+		obj.start += "this.sSpawnTarget = null\n"
+		
+		obj.update += "if( ++this.sSpawnTimer > this.sSpawnDuration ) {\n"
+		obj.update += "this.sSpawnTimer = 0\n"
+		obj.update += "if( !this.sSpawnTarget ){\n"
+		obj.update += "for( let obj of objs ) { if( obj.objName == '" + this.spawnObj.str + "' ) {\n"
+		obj.update += "this.sSpawnTarget = obj\n"
+		obj.update += "obj.active = false\n"
+		obj.update += "obj.hHitbox = null\n"
+		obj.update += "break\n"
+		obj.update += "}\n"
+		obj.update += "}\n"
+		obj.update += "}\n"
+		// obj.update += "let temp = Object.assign( {},this.sSpawnTarget )\n"
+		obj.update += "let temp = { startFunc: this.sSpawnTarget.startFunc,updateFunc: this.sSpawnTarget.updateFunc,drawFunc: this.sSpawnTarget.drawFunc,Start: function() { this.startFunc() },Update: function() { this.updateFunc() },Draw: function() { this.drawFunc() } }\n"
+		obj.update += "temp.startFunc()\n"
+		obj.update += "temp.active = true\n"
+		obj.update += "temp.x = this.x\n"
+		obj.update += "temp.y = this.y\n"
+		obj.update += "temp.Update = this.sSpawnTarget.Update\n"
+		obj.update += "temp.Draw = this.sSpawnTarget.Draw\n"
+		obj.update += "objs.push( temp )\n"
+		obj.update += "}\n"
 		
 		obj.Newline()
 		

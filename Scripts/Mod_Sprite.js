@@ -59,20 +59,23 @@ class SpriteMod extends Module
 		this.spr.Draw( gfx )
 	}
 	
-	Decorate( obj )
+	Decorate( obj,info )
 	{
-		if( this.spr.spr )
+		if( !this.spr.spr )
 		{
-			obj.start += "this.sSprite = new Sprite( '" + this.spr.spr.path + "')\n"
-			obj.start += "this.sWidth = " + this.spr.width + '\n'
-			obj.start += "this.sHeight = " + this.spr.height + '\n'
-			
-			obj.draw += "gfx.ctx.save()\n"
-			obj.draw += "gfx.ctx.translate( this.x,this.y )\n"
-			obj.draw += "gfx.ctx.rotate( this.rot + Math.PI / 2 )\n"
-			obj.draw += "gfx.DrawSpriteScale( -this.sWidth / 2,-this.sHeight / 2,this.sSprite,this.sWidth,this.sHeight )\n"
-			obj.draw += "gfx.ctx.restore()\n"
+			ErrorHandler.Throw( "Obj '" + info.name + "': Sprite Mod has empty sprite." )
+			return
 		}
+		
+		obj.start += "this.sSprite = new Sprite( '" + this.spr.spr.path + "')\n"
+		obj.start += "this.sWidth = " + this.spr.width + '\n'
+		obj.start += "this.sHeight = " + this.spr.height + '\n'
+		
+		obj.draw += "gfx.ctx.save()\n"
+		obj.draw += "gfx.ctx.translate( this.x,this.y )\n"
+		obj.draw += "gfx.ctx.rotate( this.rot + Math.PI / 2 )\n"
+		obj.draw += "gfx.DrawSpriteScale( -this.sWidth / 2,-this.sHeight / 2,this.sSprite,this.sWidth,this.sHeight )\n"
+		obj.draw += "gfx.ctx.restore()\n"
 		
 		obj.Newline()
 		

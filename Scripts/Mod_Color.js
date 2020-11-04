@@ -8,13 +8,17 @@ class ColorMod extends Module
 		this.gOffset = -30
 		this.bOffset = 0
 		
-		this.r = new Vector( this.rOffset,0,this.rOffset,-100 )
-		this.g = new Vector( this.gOffset,0,this.gOffset,-100 )
-		this.b = new Vector( this.bOffset,0,this.bOffset,-100 )
+		// this.r = new Vector( this.rOffset,0,this.rOffset,-100 )
+		// this.g = new Vector( this.gOffset,0,this.gOffset,-100 )
+		// this.b = new Vector( this.bOffset,0,this.bOffset,-100 )
 		
 		this.rBar = new SliderBar( "R","red" )
 		this.gBar = new SliderBar( "G","#00ff00" )
 		this.bBar = new SliderBar( "B","blue" )
+		
+		this.rBar.vec = new Vector( 0,0,100,0 )
+		this.gBar.vec = new Vector( 0,0,0,-100 )
+		this.bBar.vec = new Vector( 0,0,-100,0 )
 		
 		this.scale = new Vector( 0,0,100,100 )
 		this.diff = this.scale.Diff()
@@ -29,20 +33,24 @@ class ColorMod extends Module
 		// this.b.MoveTo( info.pos.x + this.bOffset,info.pos.y )
 		
 		const sDiff = this.scale.Diff().x
-		this.rBar.MoveTo( info.pos.x - sDiff + this.rOffset,info.pos.y - 50 )
-		this.gBar.MoveTo( info.pos.x - sDiff + this.gOffset,info.pos.y - 50 )
-		this.bBar.MoveTo( info.pos.x - sDiff + this.bOffset,info.pos.y - 50 )
+		this.rBar.MoveTo( info.pos.x,info.pos.y )
+		this.gBar.MoveTo( info.pos.x,info.pos.y )
+		this.bBar.MoveTo( info.pos.x,info.pos.y )
 		
 		this.scale.Update( mouse,kbd )
-		this.scale.MoveTo( info.pos.x,info.pos.y )
+		this.scale.MoveTo( info.pos.x - this.scale.Diff().x / 2,info.pos.y - this.scale.Diff().y / 2 )
 		
 		this.diff = this.scale.Diff()
 		
 		if( !this.scale.Dragging() )
 		{
-			this.rBar.Update( mouse,kbd )
-			this.gBar.Update( mouse,kbd )
-			this.bBar.Update( mouse,kbd )
+			if( !this.rBar.Update( mouse,kbd ) )
+			{
+				if( !this.gBar.Update( mouse,kbd ) )
+				{
+					this.bBar.Update( mouse,kbd )
+				}
+			}
 			
 			// this.r.Update( mouse,kbd )
 			// if( !this.r.Dragging() )
@@ -92,19 +100,19 @@ class ColorMod extends Module
 				( this.bBar.CalcVal() * 255 ) + " )" )
 	}
 	
-	Color2RGB( interp )
-	{
-		let r = this.r.Diff().GetLen()
-		let g = this.g.Diff().GetLen()
-		let b = this.b.Diff().GetLen()
-		
-		const max = Math.max( Math.max( r,g ),b )
-		r /= max
-		g /= max
-		b /= max
-		
-		return( { r: Math.floor( r * 255 ),g: Math.floor( g * 255 ),b: Math.floor( b * 255 ) } )
-	}
+	// Color2RGB( interp )
+	// {
+	// 	let r = this.r.Diff().GetLen()
+	// 	let g = this.g.Diff().GetLen()
+	// 	let b = this.b.Diff().GetLen()
+	// 	
+	// 	const max = Math.max( Math.max( r,g ),b )
+	// 	r /= max
+	// 	g /= max
+	// 	b /= max
+	// 	
+	// 	return( { r: Math.floor( r * 255 ),g: Math.floor( g * 255 ),b: Math.floor( b * 255 ) } )
+	// }
 	
 	Decorate( obj )
 	{

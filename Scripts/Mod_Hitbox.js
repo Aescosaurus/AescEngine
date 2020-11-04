@@ -2,7 +2,7 @@ class HitboxMod extends Module
 {
 	constructor()
 	{
-		super( "Hitbox","desc" )
+		super( "Hitbox","Destroys object on collision with a projectile." )
 		
 		this.size = new Vector( 0,0,100,100 )
 		this.hitboxCol = "orange"

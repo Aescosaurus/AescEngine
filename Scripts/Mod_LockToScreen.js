@@ -2,7 +2,7 @@ class LockToScreenMod extends Module
 {
 	constructor()
 	{
-		super( "Lock to Screen","Keeps object on the screen." )
+		super( "Lock Screen","Keeps object on the screen." )
 		
 		this.size = new Vector( 0,0,100,100 )
 		this.hitboxCol = "orange"

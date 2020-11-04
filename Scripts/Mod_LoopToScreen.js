@@ -2,7 +2,7 @@ class LoopToScreenMod extends Module
 {
 	constructor()
 	{
-		super( "Loop to Screen","Objects that leave one side of the screen loop to the other side." )
+		super( "Loop Screen","Objects that leave one side of the screen loop to the other side." )
 		
 		this.size = new Vector( 0,0,100,100 )
 		this.hitboxCol = "orange"

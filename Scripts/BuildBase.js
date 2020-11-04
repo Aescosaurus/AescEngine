@@ -36,4 +36,9 @@ class BuildBase
 		this.update += '\n'
 		this.draw += '\n'
 	}
+	
+	Duplicate()
+	{
+		return( { startFunc: this.startFunc,updateFunc: this.updateFunc,drawFunc: this.drawFunc,Start: function() { this.startFunc() },Update: function() { this.updateFunc() },Draw: function() { this.drawFunc() } } )
+	}
 }

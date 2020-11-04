@@ -30,6 +30,7 @@ class Graphics
 		this.ctx.beginPath()
 		this.ctx.arc( x,y,radius,0,2 * Math.PI )
 		this.ctx.stroke()
+		this.ctx.closePath()
 	}
 	
 	DrawSprite( x,y,sprite )
@@ -79,6 +80,7 @@ class Graphics
 		this.ctx.globalAlpha = alpha
 		this.ctx.fillStyle = color
 		
+		this.ctx.beginPath()
 		this.ctx.moveTo( points[0].x,points[0].y )
 		for( let i = 1; i < points.length; ++i )
 		{

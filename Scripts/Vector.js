@@ -37,6 +37,19 @@ class Vector
 			this.end.x = mouse.x
 			this.end.y = mouse.y
 		}
+		
+		if( kbd.KeyDown( 16 ) && this.Dragging() )
+		{
+			const diff = this.Diff()
+			if( ( diff.x ) > ( diff.y ) )
+			{
+				this.end.x = this.start.x + diff.y
+			}
+			else
+			{
+				this.end.y = this.start.y + diff.x
+			}
+		}
 	}
 	
 	Draw( gfx,color = "red" )

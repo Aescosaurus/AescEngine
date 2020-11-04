@@ -6,7 +6,7 @@ class DuperMod extends Module
 		
 		// todo: start inactive option
 		
-		this.spawnTimer = new Vector( 0,0,100,100 )
+		this.spawnTimer = new SliderBar( "Spawn Frequency" )
 	}
 	
 	Update( mouse,kbd,info )
@@ -22,7 +22,7 @@ class DuperMod extends Module
 	
 	Decorate( obj )
 	{
-		obj.start += "this.dDupeDuration = " + this.spawnTimer.Diff().GetLen() + '\n'
+		obj.start += "this.dDupeDuration = " + ( this.spawnTimer.CalcVal() * 60.0 ).toString() + '\n'
 		obj.start += "this.dDupeTimer = 0.0\n"
 		// obj.start += "this.dDupeActive = false\n"
 		obj.start += "if( !this.dDupeActive ) {\n"

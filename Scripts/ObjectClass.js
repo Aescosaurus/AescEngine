@@ -17,8 +17,8 @@ class ObjectClass
 		
 		this.ReorderMods()
 		
-		this.addModButton = new Module( "[A]dd Module","",gfx.scrWidth - Module.width,0 )
-		this.delModButton = new Module( "[R]emove Module","",gfx.scrWidth - Module.width,Module.height + ObjectClass.padding )
+		this.addModButton = new Module( "[A]dd Mod","",gfx.scrWidth - Module.width,0 )
+		this.delModButton = new Module( "[R]emove Mod","",gfx.scrWidth - Module.width,Module.height + ObjectClass.padding )
 	}
 	
 	Update( mouse,kbd,objs )
@@ -126,9 +126,12 @@ class ObjectClass
 	
 	Decorate( obj )
 	{
+		const info = {
+			name: this.modules[0].objName
+		}
 		for( let i in this.modules )
 		{
-			this.modules[i].Decorate( obj )
+			this.modules[i].Decorate( obj,info )
 		}
 		
 		return( obj )

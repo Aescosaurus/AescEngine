@@ -32,7 +32,7 @@ class Module
 	
 	DrawLeftSideMenu( xStart,yStart,gfx )
 	{
-		gfx.DrawText( xStart,yStart + 25,"white",this.name + " Module",25 )
+		gfx.DrawText( xStart,yStart + 25,"white",this.name + " Mod",25 )
 		for( let i in this.desc )
 		{
 			gfx.DrawText( xStart,yStart + 30 + 25 + 18 * i,"white",this.desc[i],18 )
@@ -62,7 +62,7 @@ class Module
 			y > this.y && y < this.y + Module.height )
 	}
 	
-	Decorate( obj )
+	Decorate( obj,info )
 	{
 		return( obj )
 	}
