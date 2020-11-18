@@ -32,10 +32,10 @@ class Module
 	
 	DrawLeftSideMenu( xStart,yStart,gfx )
 	{
-		gfx.DrawText( xStart,yStart + 25,"white",this.name + " Mod",25 )
+		gfx.DrawText( xStart,yStart + Module.MenuTitleTextSize + 5,"white",this.name + " Mod",Module.MenuTitleTextSize )
 		for( let i in this.desc )
 		{
-			gfx.DrawText( xStart,yStart + 30 + 25 + 18 * i,"white",this.desc[i],18 )
+			gfx.DrawText( xStart,yStart + 30 + Module.MenuTitleTextSize + Module.MenuTextSize * i,"white",this.desc[i],Module.MenuTextSize )
 		}
 	}
 	
@@ -69,16 +69,55 @@ class Module
 	
 	FormatText( gfx )
 	{
-		gfx.ctx.font = "18px Arial"
-		let newDesc = []
+		// gfx.ctx.font = Module.MenuTextSize + "px Arial"
+		// let newDesc = []
+		// newDesc.push( "" )
+		// for( let i in this.desc )
+		// {
+		// 	let curDesc = newDesc[newDesc.length - 1]
+		// 	curDesc += this.desc[i]
+		// 	
+		// 	if( gfx.ctx.measureText( newDesc[newDesc.length - 1] ).width >= gfx.scrWidth - 20 )
+		// 	{
+		// 		for( let i = curDesc.length - 1; i > 0; --i )
+		// 		{
+		// 			if( curDesc[i] == ' ' )
+		// 			{
+		// 				newDesc.push( curDesc.substring( i,curDesc.length - 1 ) )
+		// 				curDesc = curDesc.substr( 0,i )
+		// 				break
+		// 			}
+		// 		}
+		// 		
+		// 		// newDesc.push( "" )
+		// 	}
+		// }
+		
+		this.desc += ' ' // Helps logic
+		
+		gfx.ctx.font = Module.MenuTextSize + "px Arial"
+		const newDesc = []
 		newDesc.push( "" )
-		for( let i in this.desc )
+		let curWord = ""
+		for( let c of this.desc )
 		{
-			newDesc[newDesc.length - 1] += this.desc[i]
+			const curDesc = newDesc[newDesc.length - 1]
 			
-			if( gfx.ctx.measureText( newDesc[newDesc.length - 1] ).width > gfx.scrWidth )
+			if( c == ' ' )
 			{
-				newDesc.push( "" )
+				if( gfx.ctx.measureText( curDesc + ' ' + curWord ).width >= gfx.scrWidth - Module.MenuTextSize )
+				{
+					newDesc.push( curWord + ' ' )
+				}
+				else
+				{
+					newDesc[newDesc.length - 1] += curWord + ' '
+				}
+				curWord = ""
+			}
+			else
+			{
+				curWord += c
 			}
 		}
 		
@@ -88,3 +127,5 @@ class Module
 
 Module.width = 160
 Module.height = 40
+Module.MenuTextSize = 20
+Module.MenuTitleTextSize = 27

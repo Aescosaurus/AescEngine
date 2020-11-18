@@ -35,6 +35,8 @@ class SpriteMod extends Module
 	{
 		this.spr.x = info.pos.x - this.diff.x / 2
 		this.spr.y = info.pos.y - this.diff.y / 2
+		
+		this.spr.hovering = false
 	}
 	
 	Draw( gfx )

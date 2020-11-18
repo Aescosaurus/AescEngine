@@ -50,6 +50,8 @@ class Vector
 				this.end.y = this.start.y + diff.x
 			}
 		}
+		
+		return( this.Dragging() )
 	}
 	
 	Draw( gfx,color = "red" )

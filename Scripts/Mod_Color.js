@@ -12,9 +12,12 @@ class ColorMod extends Module
 		// this.g = new Vector( this.gOffset,0,this.gOffset,-100 )
 		// this.b = new Vector( this.bOffset,0,this.bOffset,-100 )
 		
-		this.rBar = new SliderBar( "R","red" )
-		this.gBar = new SliderBar( "G","#00ff00" )
-		this.bBar = new SliderBar( "B","blue" )
+		this.rBar = new SliderBar( "R" )
+		this.rBar.sliderCol = "red"
+		this.gBar = new SliderBar( "G" )
+		this.gBar.sliderCol = "#00ff00"
+		this.bBar = new SliderBar( "B" )
+		this.bBar.sliderCol = "blue"
 		
 		this.rBar.vec = new Vector( 0,0,100,0 )
 		this.gBar.vec = new Vector( 0,0,0,-100 )

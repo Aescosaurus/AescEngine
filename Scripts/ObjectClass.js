@@ -44,7 +44,10 @@ class ObjectClass
 		if( ( mouse.uniqueLeft && this.addModButton.Contains( mouse.x,mouse.y ) ) ||
 			Hotkeys.Check( ObjectClass.addModHotkey ) )
 		{
-			return( true )
+			if( this.modules.length < 9 )
+			{
+				return( true )
+			}
 		}
 		else if( ( mouse.uniqueLeft && this.delModButton.Contains( mouse.x,mouse.y ) ) ||
 			Hotkeys.Check( ObjectClass.delModHotkey ) )
@@ -52,7 +55,8 @@ class ObjectClass
 			if( this.selectedMod > 0 )
 			{
 				this.modules.splice( this.selectedMod,1 )
-				this.selectedMod = 0 // So we don't have to care about unique clicks.
+				--this.selectedMod
+				// this.selectedMod = 0 // So we don't have to care about unique clicks.
 				this.ReorderMods()
 			}
 		}
@@ -91,12 +95,6 @@ class ObjectClass
 	DrawActive( gfx )
 	{
 		// gfx.DrawRect( 0,0,Module.width,gfx.scrHeight,"gray" )
-		gfx.DrawRect( 0,this.botMenuY,gfx.scrWidth,ObjectClass.botMenuHeight,"gray" )
-		
-		this.addModButton.DrawBG( true,gfx,"limegreen","darkgreen" )
-		this.delModButton.DrawBG( this.selectedMod > 0,gfx,"limegreen","darkgreen" )
-		
-		this.modules[this.selectedMod].DrawLeftSideMenu( 10,this.botMenuY,gfx )
 		
 		for( let i in this.modules ) this.modules[i].DrawAlways( gfx )
 		
@@ -104,15 +102,25 @@ class ObjectClass
 		{
 			const selected = ( i == this.selectedMod )
 			
-			this.modules[i].DrawBG( selected,gfx )
-			
 			if( selected )
 			{
 				this.modules[i].Draw( gfx )
 			}
+			
+			this.modules[i].DrawBG( selected,gfx )
 		}
 		
+		gfx.DrawRect( 0,this.botMenuY,gfx.scrWidth,ObjectClass.botMenuHeight,"gray" )
+		
+		this.addModButton.DrawBG( this.modules.length < 9,gfx,"limegreen","darkgreen" )
+		this.delModButton.DrawBG( this.selectedMod > 0,gfx,"limegreen","darkgreen" )
+		
 		for( let i in this.modules ) this.modules[i].DrawUI( gfx )
+	}
+	
+	DrawBotMenu( gfx )
+	{
+		this.modules[this.selectedMod].DrawLeftSideMenu( 10,this.botMenuY,gfx )
 	}
 	
 	DrawBG( gfx )
@@ -156,6 +164,8 @@ class ObjectClass
 		this.modules.push( mod )
 		this.modules[this.modules.length - 1].FormatText( this.gfx )
 		this.ReorderMods()
+		
+		this.selectedMod = this.modules.length - 1
 	}
 }
 

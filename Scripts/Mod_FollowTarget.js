@@ -47,7 +47,6 @@ class FollowTargetMod extends Module
 		obj.start += "this.ftName = \"" + this.target.str + "\"\n"
 		obj.start += "this.ftSpeed = " + this.speed.Diff().Multiply( FollowTargetMod.speedScale ).GetLen() + '\n'
 		obj.start += "this.ftTarget = null\n"
-		obj.start += "for( let obj of objs ) if( obj.objName == this.ftName ) this.ftTarget = obj\n"
 		
 		obj.update += "if( this.ftTarget ) {\n"
 		obj.update += "let xDiff = this.ftTarget.x - this.x\n"
@@ -55,6 +54,9 @@ class FollowTargetMod extends Module
 		obj.update += "const len = Math.sqrt( xDiff * xDiff + yDiff * yDiff )\n"
 		obj.update += "this.x += xDiff / len * this.ftSpeed\n"
 		obj.update += "this.y += yDiff / len * this.ftSpeed\n"
+		obj.update += "}\n"
+		obj.update += "else {\n"
+		obj.update += "for( let obj of objs ) if( obj.objName == this.ftName ) this.ftTarget = obj\n"
 		obj.update += "}\n"
 		
 		obj.Newline()

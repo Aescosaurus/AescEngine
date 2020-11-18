@@ -24,6 +24,13 @@ class Point
 		{
 			this.x = mouse.x
 			this.y = mouse.y
+			
+			// todo: fix this based on camera pos
+			// if( kbd.KeyDown( 16 ) )
+			// {
+			// 	this.x -= this.x % 20
+			// 	this.y -= this.y % 20
+			// }
 		}
 	}
 	

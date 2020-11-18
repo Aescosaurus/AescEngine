@@ -14,7 +14,7 @@ class Camera
 	Update( mouse,kbd )
 	{
 		this.diff.Set( 0,0 )
-		if( kbd.KeyDown( ' ' ) && mouse.down )
+		if( kbd.KeyDown( ' ' ) && ( mouse.down || mouse.rightDown ) )
 		{
 			if( this.oldX > 0 && this.oldY > 0 )
 			{

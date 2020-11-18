@@ -20,6 +20,8 @@ class ImageMap
 		this.AddImage( new Sprite( "Images/Triangle" ) )
 		this.AddImage( new Sprite( "Images/Circle" ) )
 		this.AddImage( new Sprite( "Images/Alien" ) )
+		this.AddImage( new Sprite( "Images/Coin" ) )
+		this.AddImage( new Sprite( "Images/Wall" ) )
 	}
 	
 	Update( mouse,kbd )
@@ -38,6 +40,8 @@ class ImageMap
 				}
 			}
 		}
+		
+		if( kbd.lastKey == "Escape" ) ImageMap.active = false
 		
 		return( null )
 	}

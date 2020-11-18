@@ -44,12 +44,12 @@ class VecRand
 		return( v2.Subtract( v1 ).Multiply( percent ).Add( v1 ) )
 	}
 	
-	Code()
+	Code( addNewline = true )
 	{
 		const v1 = this.v1.Diff()
 		const v2 = this.v2.Diff()
 		return( "new Point( Random.Range( " + v1.x + ',' + v2.x +
-			" ),Random.Range( " + v1.y + ',' + v2.y + " ) )\n" )
+			" ),Random.Range( " + v1.y + ',' + v2.y + " ) )" + ( addNewline ? '\n' : '' ) )
 	}
 }
 

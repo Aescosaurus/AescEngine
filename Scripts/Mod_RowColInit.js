@@ -2,10 +2,10 @@ class RowColInitMod extends Module
 {
 	constructor()
 	{
-		super( "Row Col Init","Spawns things in row col order." )
+		super( "Row Col Init","Spawns things in row col order.  Disables this object." )
 		
-		this.rowCount = new SliderBar( "Rows" )
-		this.colCount = new SliderBar( "Cols" )
+		this.rowCount = new SliderBar( "Row Width" )
+		this.colCount = new SliderBar( "Col Height" )
 		this.colCount.vec.end.x = this.colCount.vec.start.x
 		this.colCount.vec.end.y -= 100
 		this.padding = new Vector( 0,0,100,100 )

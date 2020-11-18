@@ -79,6 +79,19 @@ class InputStr
 		this.SetPos( x,y )
 	}
 	
+	Validate( objList )
+	{
+		this.valid = false
+		for( let obj of objList )
+		{
+			if( obj.modules[0].objName == this.str )
+			{
+				this.valid = true
+				break
+			}
+		}
+	}
+	
 	Contains( x,y )
 	{
 		return( x > this.x && x < this.x + this.width &&

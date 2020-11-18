@@ -13,7 +13,7 @@ class IdentityMod extends Module
 	
 	Update( mouse,kbd,info )
 	{
-		this.pos.Update( mouse )
+		this.pos.Update( mouse,kbd )
 		// if( !this.pos.Dragging() )
 		// {
 		// 	this.scale.Update( mouse )

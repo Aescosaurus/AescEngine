@@ -27,6 +27,7 @@ class ModuleMap
 		
 		this.AddModule( "AI",new FollowTargetMod() )
 		this.AddModule( "AI",new PingPongMod() )
+		this.AddModule( "AI",new PathFollowMod() )
 		
 		this.AddModule( "Spawn",new DuperMod() )
 		this.AddModule( "Spawn",new SpawnerMod() )
@@ -36,6 +37,10 @@ class ModuleMap
 		this.AddModule( "Collision",new HitboxMod() )
 		this.AddModule( "Collision",new LockToScreenMod() )
 		this.AddModule( "Collision",new LoopToScreenMod() )
+		this.AddModule( "Collision",new TilemapMod() )
+		this.AddModule( "Collision",new ColliderMod() )
+		this.AddModule( "Collision",new CoinMod() )
+		this.AddModule( "Collision",new CoinPickupMod() )
 	}
 	
 	Update( mouse,kbd )
@@ -53,6 +58,8 @@ class ModuleMap
 				}
 			}
 		}
+		
+		if( kbd.lastKey == "Escape" ) this.active = false
 		
 		return( null )
 	}

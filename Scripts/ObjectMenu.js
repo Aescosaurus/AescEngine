@@ -53,11 +53,14 @@ class ObjectMenu
 			if( ( mouse.uniqueLeft && this.createObjButton.Contains( mouse.x,mouse.y ) ) ||
 				( Hotkeys.Check( this.createObjHotkey ) && !this.textIn.open ) )
 			{
-				this.objs.push( new ObjectClass( this.gfx ) )
-				this.textIn.Open()
-				kbd.lastKey = '' // Dangerous!
-				this.curObj = this.objs.length - 1
-				this.ReorderObjs()
+				if( this.objs.length < 9 )
+				{
+					this.objs.push( new ObjectClass( this.gfx ) )
+					this.textIn.Open()
+					kbd.lastKey = '' // Dangerous!
+					this.curObj = this.objs.length - 1
+					this.ReorderObjs()
+				}
 			}
 			else if( ( ( mouse.uniqueLeft && this.destroyObjButton.Contains( mouse.x,mouse.y ) ) ||
 				Hotkeys.Check( this.destroyObjHotkey ) ) &&
@@ -80,9 +83,20 @@ class ObjectMenu
 				}
 			}
 			
-			const result = this.textIn.CheckResult()
+			let result = this.textIn.CheckResult()
 			if( result.length > 0 )
 			{
+				for( let i = 0; i < this.objs.length; ++i )
+				{
+					const obj = this.objs[i]
+					
+					if( obj.objButton.name == result )
+					{
+						result += "1"
+						i = 0
+					}
+				}
+				
 				this.objs[this.curObj].objButton.name = result
 				this.objs[this.curObj].modules[0].objName = result
 				this.textIn.Reset()
@@ -104,20 +118,26 @@ class ObjectMenu
 		{
 			this.cam.Draw( gfx )
 			
+			for( let i in this.objs )
+			{
+				// this.objs[i].objButton.DrawBG( this.curObj == i,gfx,"blue","darkblue" )
+				this.objs[i].DrawBG( gfx )
+			}
+			
+			if( this.curObj >= 0 ) this.objs[this.curObj].DrawActive( gfx )
+			
 			gfx.DrawRect( 0,0,Module.width,gfx.scrHeight,"gray" )
 			
-			this.createObjButton.DrawBG( true,gfx,"dodgerblue","#103088" )
+			this.createObjButton.DrawBG( this.objs.length < 9,gfx,"dodgerblue","#103088" )
 			this.destroyObjButton.DrawBG( this.objs.length > 0,gfx,"dodgerblue","#103088" )
-			
-			// only draw lines of selected obj
 			
 			for( let i in this.objs )
 			{
 				this.objs[i].objButton.DrawBG( this.curObj == i,gfx,"blue","darkblue" )
-				// todo draw object name
-				this.objs[i].DrawBG( gfx )
+				// this.objs[i].DrawBG( gfx )
 			}
-			if( this.curObj >= 0 ) this.objs[this.curObj].DrawActive( gfx )
+			
+			if( this.curObj >= 0 ) this.objs[this.curObj].DrawBotMenu( gfx )
 		}
 	}
 	
