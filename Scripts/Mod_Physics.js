@@ -49,8 +49,9 @@ class PhysicsMod extends Module
 		// obj.start += "this.pXForce = " + ( this.force.Diff().x * PhysicsMod.forceScale ) + '\n'
 		// obj.start += "this.pYForce = " + ( this.force.Diff().y * PhysicsMod.forceScale ) + '\n'
 		
-		obj.update += "this.x += this.pXVel\n"
-		obj.update += "this.y += this.pYVel\n"
+		obj.update += "const phyRot = this.rot + Math.PI / 2.0\n"
+		obj.update += "this.x -= this.pXVel * Math.cos( phyRot ) + this.pYVel * Math.sin( phyRot )\n"
+		obj.update += "this.y += this.pYVel * Math.cos( phyRot ) + this.pXVel * Math.sin( phyRot )\n"
 		obj.update += "this.pXVel += this.pXForce\n"
 		obj.update += "this.pYVel += this.pYForce\n"
 		

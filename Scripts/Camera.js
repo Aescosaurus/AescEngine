@@ -39,6 +39,11 @@ class Camera
 		const xDiff = x - this.oldX
 		const yDiff = y - this.oldY
 		
+		this.MoveBy( xDiff,yDiff )
+	}
+	
+	MoveBy( xDiff,yDiff )
+	{
 		this.pos.x += xDiff
 		this.pos.y += yDiff
 		

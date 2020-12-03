@@ -101,6 +101,21 @@ class ObjectMenu
 				this.objs[this.curObj].modules[0].objName = result
 				this.textIn.Reset()
 			}
+			
+			if( kbd.lastKey == 'f' )
+			{
+				let pos = new Point( this.cam.pos.x + gfx.scrWidth / 2,this.cam.pos.y + gfx.scrHeight / 2 )
+				const desired = new Point( gfx.scrWidth / 2,gfx.scrHeight / 2 )
+				if( this.objs.length > 0 )
+				{
+					pos = this.objs[this.curObj].modules[0].pos
+				}
+				
+				const diff = pos.Copy().Subtract( desired )
+				this.cam.MoveBy( -diff.x,-diff.y )
+				
+				for( let obj of this.objs ) obj.UpdateCam( this.cam )
+			}
 		}
 	}
 	

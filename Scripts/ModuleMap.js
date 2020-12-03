@@ -13,26 +13,27 @@ class ModuleMap
 		
 		this.active = false
 		
-		// todo draw category names at top
-		this.AddModule( "Physics",new PhysicsMod() )
-		
 		this.AddModule( "Graphics",new ColorMod() )
 		this.AddModule( "Graphics",new SpriteMod() )
 		this.AddModule( "Graphics",new CameraFollowMod() )
+		this.AddModule( "Graphics",new WeldMod() )
 		
 		this.AddModule( "Input",new DiagMoveMod() )
 		this.AddModule( "Input",new AimerMod() )
 		this.AddModule( "Input",new TankMoveMod() )
 		this.AddModule( "Input",new ShooterMod() )
+		this.AddModule( "Input",new PlatformerMod() )
 		
 		this.AddModule( "AI",new FollowTargetMod() )
 		this.AddModule( "AI",new PingPongMod() )
 		this.AddModule( "AI",new PathFollowMod() )
+		this.AddModule( "AI",new PhysicsMod() )
 		
 		this.AddModule( "Spawn",new DuperMod() )
 		this.AddModule( "Spawn",new SpawnerMod() )
 		this.AddModule( "Spawn",new SplitterMod() )
 		this.AddModule( "Spawn",new RowColInitMod() )
+		this.AddModule( "Spawn",new TimeoutMod() )
 		
 		this.AddModule( "Collision",new HitboxMod() )
 		this.AddModule( "Collision",new LockToScreenMod() )

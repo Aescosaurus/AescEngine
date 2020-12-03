@@ -4,7 +4,7 @@ class SpawnerMod extends Module
 	{
 		super( "Spawner","Spawns object specified by name on a timer.  Disables target obj." )
 		
-		this.timer = new Vector( 0,0,100,100 )
+		this.timer = new SliderBar( "Interval" )
 		this.spawnObj = new InputStr( "spawn obj",9999,"limegreen","green" )
 	}
 	
@@ -13,7 +13,7 @@ class SpawnerMod extends Module
 		this.timer.MoveTo( info.pos.x,info.pos.y )
 		this.timer.Update( mouse,kbd )
 		
-		this.spawnObj.MoveTo( this.timer.end.x,this.timer.end.y - 50 )
+		this.spawnObj.MoveTo( this.timer.vec.end.x,this.timer.vec.end.y - 50 )
 		if( this.spawnObj.Update( mouse,kbd ) )
 		{
 			this.spawnObj.valid = false
@@ -43,7 +43,7 @@ class SpawnerMod extends Module
 			return
 		}
 		
-		obj.start += "this.sSpawnDuration = " + ( this.timer.Diff().GetLen() * SpawnerMod.timerDiv ) + '\n'
+		obj.start += "this.sSpawnDuration = " + ( this.timer.CalcVal() * SpawnerMod.timerDiv ) + '\n'
 		obj.start += "this.sSpawnTimer = this.sSpawnDuration + 1\n"
 		obj.start += "this.sSpawnTarget = null\n"
 		
@@ -75,4 +75,4 @@ class SpawnerMod extends Module
 	}
 }
 
-SpawnerMod.timerDiv = 2
+SpawnerMod.timerDiv = 60
