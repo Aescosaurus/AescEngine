@@ -2,7 +2,7 @@ class WeldMod extends Module
 {
 	constructor()
 	{
-		super( "Weld","desc" )
+		super( "Weld","Makes this object stick to target with offset." )
 		
 		this.weldOffset = new Vector( 0,0,100,100 )
 		this.weldTarget = new InputStr( "target",9999,"limegreen","green" )

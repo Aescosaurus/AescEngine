@@ -2,7 +2,7 @@ class CoinPickupMod extends Module
 {
 	constructor()
 	{
-		super( "Coin Pickup","desc" )
+		super( "Coin Pickup","Destroys objects with coin mod on collision." )
 		
 		this.hitbox = new Vector( 0,0,100,100 )
 		this.hitboxCol = "orange"

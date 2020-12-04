@@ -22,13 +22,11 @@ class Main
 		if( this.running )
 		{
 			this.game.Update()
-			// if( this.kbd.KeyDown( 'B' ) && this.kbd.KeyDown( 'U' ) )
 			if( !this.playButton.Playing() )
 			{
 				this.StopRunning()
 			}
 		}
-		// else if( this.kbd.KeyDown( 'B' ) && this.kbd.KeyDown( 'I' ) )
 		else if( this.playButton.Playing() )
 		{
 			this.running = true
